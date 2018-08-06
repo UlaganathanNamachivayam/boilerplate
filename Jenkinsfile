@@ -3,13 +3,16 @@ pipeline {
 	
 	stages {
 		stage('Checkout') {
-			git branch: 'master',
-			credentialsId: '',															# Should be incorporated from boilerplate repo.
-			url: ''																		# Repo URL should be updated with the newly cloned repo details.
+			steps {
+				echo 'Checking out the project'
+				checkout scm		
+			}																	ils.
 		}
 		stage('Building') {
-			echo 'Building the project'
-			sh('sample.sh')
+			steps {	
+				echo 'Building the project'
+				echo 'Thank you for building the project'
+			}
 		}
 	}	
 }
