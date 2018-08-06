@@ -6,9 +6,9 @@ pipeline {
 			steps {
 				echo 'Checking out the project'
 				checkout scm		
-			}																	ils.
+			}						
 		}
-		stage('Building') {
+		stage('Build') {
 			steps {	
 				echo 'Building the project'
 				echo 'Thank you for building the project'
