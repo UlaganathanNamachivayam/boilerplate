@@ -3,17 +3,23 @@ pipeline {
 	
 	stages {
 		stage('Checkout') {
+		 steps {	
 			git branch: 'master',
 			credentialsId: 'gitaccess',															
-			url: "${git_url}"																	
+			url: "${git_url}"
+		 }
 		}
 		stage('Building') {
-		    def customImage = docker.build("${userid}:${env.BUILD_ID}")
+		 steps{  
+		  script { 	
+			def customImage = docker.build("${userid}:${env.BUILD_ID}")
 			echo 'Building the project'
 			customImage.inside{
 			sh('sample.sh')
 			}
 			customImage.push('latest')
-		}
-	}	
+		 }
+	   }
+    }
+  }	
 }
