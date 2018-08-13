@@ -1,18 +1,19 @@
 pipeline {
-	agent any
+	agent { dockerfile true }
 	
 	stages {
 		stage('Checkout') {
-			steps {
-				echo 'Checking out the project'
-				checkout scm		
-			}						
+			git branch: 'master',
+			credentialsId: 'gitaccess',															
+			url: "${git_url}"																	
 		}
-		stage('Build') {
-			steps {	
-				echo 'Building the project'
-				echo 'Thank you for building the project'
+		stage('Building') {
+		    def customImage = docker.build("${userid}:${env.BUILD_ID}")
+			echo 'Building the project'
+			customImage.inside{
+			sh('sample.sh')
 			}
+			customImage.push('latest')
 		}
 	}	
 }
