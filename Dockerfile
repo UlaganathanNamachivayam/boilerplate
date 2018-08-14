@@ -1,3 +1,2 @@
-FROM alpine:3.7
-RUN apk add --update bash && rm -rf /var/cache/apk/*
-CMD ["/bin/bash", "echo hello world"]
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
