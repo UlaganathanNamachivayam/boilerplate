@@ -4,13 +4,17 @@ pipeline {
     registryCredential = 'playground_docker'
     dockerImage = ''
   }
+  
   agent any
+  
   stages {
+    
     stage('Checkout') {
       steps {
         git "${git_url}"
       }
     }
+    
     stage('BuildingImage') {
       steps{
         script {
@@ -18,7 +22,8 @@ pipeline {
         }
       }
     }
-    stage('DeployingImage') {
+    
+    stage('PushingImage') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
@@ -27,5 +32,14 @@ pipeline {
         }
       }
     }
+      stage('DeployingImage') {
+        steps{
+          script {
+            dockerImage.pull()
+            dockerImage.withRun('-p 80:80') {c -> sh 'sleep 2m' }
+          }
+      }
+    }
+
   }
-}
+ }
